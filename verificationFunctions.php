@@ -1,5 +1,5 @@
 <?php
-
+//cleans value of any unwanted characters
 function sanitise($val)
 {
 	$arr1 = str_split($val) ;
@@ -37,6 +37,7 @@ function sanitise($val)
 	return $cleanVal ;
 }
 
+//Checks if password satifies password complexity rules
 function passwordComplexity($password) // Boolean Function
 {
 	$uppercase = preg_match('@[A-Z]@', $password);
@@ -52,12 +53,6 @@ function passwordComplexity($password) // Boolean Function
 		{
 			return true;
 		}
-}
-
-
-function verifyPassword ($password)
-{
-	
 }
 
 ?>

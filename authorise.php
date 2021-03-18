@@ -1,16 +1,9 @@
-<form method="post" action="signup.php">
-		<input type="submit" value="return" name="return"/><br>
-</form>
 <?php
-	session_set_cookie_params(3600,"/");
-	session_start();
-	echo "<br>" , session_id();
-
 	require "sqlFunctions.php";	
 	require "sessionFunctions.php";
 	require "verificationFunctions.php";
-
-	checkSQL();
+	
+	checkSession();
 
 	if(!isset($_POST['username'], $_POST['password']) )
 	{
@@ -18,8 +11,15 @@
 	}
 	$uname = sanitise($_POST['username']);
 	$pass = sanitise($_POST['password']);
-
-
-
+	
+	if(loginVerifyPassword($uname,$pass))
+	{
+		header('location: profile.php');
+	}
+	else 
+	{
+		header('location: login.php');
+	}
+	
 ?>
 

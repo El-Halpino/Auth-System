@@ -1,6 +1,6 @@
 <?php
 
-// Functions for sql creation
+// Functions for sql CRUD operations
 
 // Returns link for connecting to SQL
 function createLink()
@@ -32,8 +32,8 @@ function createTable()
 		{
 			echo exit("Error creating table: " . mysqli_error($link) . "\n");
 		}
-	// Insert Test Data
-	storeNewUser("Test" , "TestPass12@#");
+	// Insert Admin
+	storeNewUser("ADMIN" , "SAD_2021!");
 	mysqli_close($link);
 }
 
@@ -56,7 +56,6 @@ function createDB($link, $dbName)
 		} else {
 			echo exit("\nError creating database: " . mysqli_error($link) . "\n");
 		}
-		
 	}
 	mysqli_close($link);
 }
@@ -85,11 +84,11 @@ function storeNewUser($username , $password)
 {
 	checkSQL();
 	$link = createLink();
-	$salt = random_bytes(mt_rand(20,50)); // create random salt
-	$hashedPassword = md5($salt, $password); // created hashed password
-	
+	$salt = random_bytes(24);// create random salt
+	$hashedSalt = md5($salt);
+	$hashedPassword = md5($hashedSalt.$password); // created hashed password
 	$sql = "INSERT INTO users (username, password, salt)
-	VALUES ('$username', '$hashedPassword', '$salt')";
+	VALUES ('$username', '$hashedPassword', '$hashedSalt')";
 	if(mysqli_query($link, $sql))
 		{
 			echo "<br>User Added";
@@ -99,6 +98,44 @@ function storeNewUser($username , $password)
 			exit("Error inserting user: " . mysqli_error($link) . "\n");
 		}	
 	mysqli_close($link);
+}
+
+// Checks if passwords match
+function loginVerifyPassword($username,$password)
+{
+	checkSQL();
+	$link = createLink();
+	$sql = "SELECT id , username, password , salt FROM users";
+	$result = $link->query($sql);
+	if($result->num_rows > 0)
+	{
+		while($row = $result->fetch_assoc())
+		{
+			if($row['username'] == $username)
+			{
+				$salt = $row['salt'];
+				$hashToCheck = md5($salt.$password);
+				if($row['password'] == $hashToCheck)
+				{
+					$_SESSION['username'] = $username;
+					$_SESSION['loggedIn'] = true;
+					$_SESSION['userID'] = $row['id'];
+					$_SESSION['sesTimer'] = time();
+					if($username == "ADMIN")
+					{
+						$_SESSION['admin'] = true;
+					}
+					else 
+					{
+						$_SESSION['admin'] = false;
+					}
+					
+					return true; // passwords match
+				}
+			}
+		}
+		return false; // passwords don't match
+	}
 }
 
 // Checks if username exists
@@ -121,5 +158,11 @@ function checkIfUserExists($username)
 	}
 	mysqli_close($link);
 }
+
+function changePassword($uname)
+{
+	
+}
+
 
 ?>

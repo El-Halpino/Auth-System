@@ -1,3 +1,7 @@
+<?php
+require "sessionFunctions.php";
+checkSession();
+?>
 <html>
 	<head>
 		<title>Login</title>

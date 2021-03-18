@@ -1,8 +1,3 @@
-<?php
-session_set_cookie_params(3600,"/");
-session_start();
-echo "<br>Current Session: " , session_id();
-?>
 <html>
 <head><title>Signup</title></head>
 <body>
@@ -14,8 +9,11 @@ echo "<br>Current Session: " , session_id();
 </body>
 </html>
 <?php
-	require "sqlFunctions.php";
+	require "sqlFunctions.php";	
+	require "sessionFunctions.php";
 	require "verificationFunctions.php";
+	
+	checkSession();
 	
 	if(isset($_POST["signup"])) 
 	{
@@ -27,17 +25,18 @@ echo "<br>Current Session: " , session_id();
 			if(!passwordComplexity($pass))
 			{
 				echo '<script>alert("Password must be at least 8 characters long and must include at least one upper case letter, one number, and one special character.")</script>';
-				exit();
+				header('location: signup.php');
 			}
 			else
 			{
 				echo '<br>Password is strong.<br>'; // Now store username and password
 				storeNewUser($uname, $pass);
+				header('location: login.php');
 			}
 		}
 		else 
 		{
-			exit("User Already Exists");
+			echo '<script>alert("User already exists")</script>';
 		}
 	}
 ?>
