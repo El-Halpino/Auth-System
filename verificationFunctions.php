@@ -39,25 +39,23 @@ function sanitise($val)
 
 function passwordComplexity($password) // Boolean Function
 {
-$uppercase = preg_match('@[A-Z]@', $password);
-$lowercase = preg_match('@[a-z]@', $password);
-$number    = preg_match('@[0-9]@', $password);
-$specialChars = preg_match('@[^\w]@', $password);
+	$uppercase = preg_match('@[A-Z]@', $password);
+	$lowercase = preg_match('@[a-z]@', $password);
+	$number    = preg_match('@[0-9]@', $password);
+	$specialChars = preg_match('@[^\w]@', $password);
 
-if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) 
-{
-    echo 'Password must be at least 8 characters long and must include at least one upper case letter, one number, and one special character.';
-	return false;
-}
-else
-{
-    echo 'Password is strong.';
-	return true;
-}
+	if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) 
+		{
+			return false;
+		}
+	else
+		{
+			return true;
+		}
 }
 
 
-function salt_HashPassword ($username, $password)
+function verifyPassword ($password)
 {
 	
 }
