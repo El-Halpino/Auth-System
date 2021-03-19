@@ -3,7 +3,6 @@
 	require "sessionFunctions.php";
 	require "verificationFunctions.php";
 	checkSession();
-	
 	if(isset($_SESSION['locked'])) // Check if user is locked
 	{
 		$difference = time() - $_SESSION['locked'];
@@ -32,6 +31,12 @@
 		{
 			unset($_SESSION['locked']);
 			unset($_SESSION['loginAttempts']);
+			$token = isset($_SESSION['changePassToken']) ? $_SESSION['changePassToken'] : "";
+			if(!$token)
+			{
+				$token = md5(random_bytes(18));
+				$_SESSION['changePassToken'] = $token;
+			}
 			header('location: profile.php');
 		}
 		else
@@ -66,7 +71,7 @@
 		?>
 		<input type="submit" value="Login" name="login"/><br>
 			<?php } ?>
-		<a href="signup.php"> Signup Page </button>
+		<a href="signup.php"> Signup Page </a>
 	</form>
 </div>
 </body>

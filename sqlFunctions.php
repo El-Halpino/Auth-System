@@ -34,6 +34,9 @@ function createTable()
 		}
 	// Insert Admin
 	storeNewUser("ADMIN" , "SAD_2021!");
+	// Create Event Log
+	
+	
 	mysqli_close($link);
 }
 
@@ -116,7 +119,7 @@ function loginVerifyPassword($username,$password)
 				$salt = $row['salt'];
 				$hashToCheck = md5($salt.$password);
 				if($row['password'] == $hashToCheck)
-				{
+				{ // Password matches, login successful, create authenticated session.
 					$_SESSION['username'] = $username;
 					$_SESSION['loggedIn'] = true;
 					$_SESSION['userID'] = $row['id'];
@@ -160,9 +163,24 @@ function checkIfUserExists($username)
 	mysqli_close($link);
 }
 
-function changePassword($uname)
+function changePassword($uname , $newpassword)
 {
+	checkSQL();
+	$link = createLink();
+	$salt = random_bytes(24);// create random salt
+	$hashedSalt = md5($salt);
+	$hashedPassword = md5($hashedSalt.$newpassword); // created hashed password
+	$sql = "UPDATE users SET password='$hashedPassword' , salt='$hashedSalt' WHERE username='$uname'";
 	
+	if($link->query($sql) === TRUE)
+	{
+		return true;
+	} 
+	else 
+	{
+		$_SESSION['error'] = "Error updating password: " . $link->error;
+		return false;
+	}
 }
 
 

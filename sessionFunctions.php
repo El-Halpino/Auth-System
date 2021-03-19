@@ -22,8 +22,19 @@ function checkSession()
 	}
 }
 
-function checkAuthentication()
+// Checks if user has been inactive for 10 minutes
+function inactivityChecker()
 {
-	
+	if(!isset($_SESSION['inactivityTimer']))
+	{
+		$_SESSION['inactivityTimer'] = time();
+	}
+	if(time() - $_SESSION['inactivityTimer'] > 600)
+	{
+		DestroySession();
+	}
+	else {
+		$_SESSION['inactivityTimer'] = time();
+	}
 }
 ?>
