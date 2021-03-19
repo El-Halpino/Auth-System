@@ -26,11 +26,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") // Check if GET has been sent
 			if(!$npass == $npass1) // Ensure passwords are equal
 			{
 				$_SESSION['error'] = "New passwords do not match";
+				newEvent("Password Change", "Denied");
+				header('location: changepassword.php');
+			}
+			else if($npass == $pass)
+			{
+				$_SESSION['error'] = "New password cannot match old one";
+				newEvent("Password Change", "Denied");
 				header('location: changepassword.php');
 			}
 			else if (!passwordComplexity($npass)) // Check Complexity
 			{
 				$_SESSION['error'] = "Password must be at least 8 characters long and must include at least one upper case letter, one number, and one special character.";
+				newEvent("Password Change", "Denied");
 				header('location: changepassword.php');
 			}
 			else 
@@ -41,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") // Check if GET has been sent
 					if(changePassword($username , $npass))
 					{
 						destroySession();
+						newEvent("Logout", "Successful");
 						header('location: login.php');
 					} else {
 						header('location: changepassword.php');
@@ -48,10 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") // Check if GET has been sent
 				}
 				else { // Password unverified
 					$_SESSION['error'] = "Password could not be authenticated";
+					newEvent("Password Change", "Denied");
 					header('location: changepassword.php');
 				}
 			}
 		}
 	}
-	
 ?>

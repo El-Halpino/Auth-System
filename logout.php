@@ -1,5 +1,7 @@
 <?php
+	require "sqlFunctions.php";	
 	require "sessionFunctions.php";
+	require "verificationFunctions.php";
 	
 	checkSession();
 	if(!$_SESSION['loggedIn'] == true)
@@ -10,6 +12,7 @@
 	if ($_SERVER["REQUEST_METHOD"] == "POST") // Check if POST has been sent
 	{
 		DestroySession(); // destroy session
+		newEvent("Logout", "Successful");
 		header('location: login.php'); // redirect user to login
 	}
 ?>

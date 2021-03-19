@@ -33,6 +33,7 @@
 			if(!passwordComplexity($pass))
 			{
 				echo '<script>alert("Password must be at least 8 characters long and must include at least one upper case letter, one number, and one special character.")</script>';
+				newEvent("Signup", "Denied");
 				header('location: signup.php');
 			}
 			else

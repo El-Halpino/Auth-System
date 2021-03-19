@@ -28,7 +28,8 @@
 		$pass = sanitise($_POST['password']);
 		
 		if(loginVerifyPassword($uname,$pass) == true)
-		{
+		{ // Login Successful
+			newEvent("Login", "Successful");
 			unset($_SESSION['locked']);
 			unset($_SESSION['loginAttempts']);
 			$token = isset($_SESSION['changePassToken']) ? $_SESSION['changePassToken'] : "";
@@ -40,7 +41,8 @@
 			header('location: profile.php');
 		}
 		else
-		{
+		{ // Login Unsuccessful
+			newEvent("Login", "Denied");
 			$_SESSION['loginAttempts'] +=1;
 			$_SESSION['error'] = "The username " . $uname . " and password could not be authenticated";
 		}

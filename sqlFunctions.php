@@ -35,9 +35,40 @@ function createTable()
 	// Insert Admin
 	storeNewUser("ADMIN" , "SAD_2021!");
 	// Create Event Log
-	
-	
+	// eventid , type , description , dataoccured
+	$sql = 'CREATE TABLE eventlog (
+	eventID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	type VARCHAR (25) NOT NULL,
+	description VARCHAR(255) NOT NULL,
+	date DATETIME DEFAULT CURRENT_TIMESTAMP)';
+	if(mysqli_query($link, $sql))
+		{
+			echo "<br>Table eventlog created successfully\n";
+		} 
+		else 
+		{
+			echo exit("Error creating table: " . mysqli_error($link) . "\n");
+		}
+	//Insert first event
+	newEvent("Table Created", "First Event");
 	mysqli_close($link);
+}
+
+//Add to event log
+function newEvent($eventType, $eventDescription)
+{
+	checkSQL();
+	$link = createLink();
+	$sql = "INSERT INTO eventlog (type , description)
+	VALUES ('$eventType', '$eventDescription')";
+	if(mysqli_query($link, $sql))
+		{
+			mysqli_close($link);
+		}
+		else 
+		{
+			exit("Error inserting user: " . mysqli_error($link) . "\n");
+		}	
 }
 
 // Creates DB my_db
@@ -94,9 +125,9 @@ function storeNewUser($username , $password)
 	VALUES ('$username', '$hashedPassword', '$hashedSalt')";
 	if(mysqli_query($link, $sql))
 		{
-			echo "<br>User Added";
+			newEvent("Signup", "Successful");
 		}
-		else 
+	else 
 		{
 			exit("Error inserting user: " . mysqli_error($link) . "\n");
 		}	
@@ -174,6 +205,7 @@ function changePassword($uname , $newpassword)
 	
 	if($link->query($sql) === TRUE)
 	{
+		newEvent("Password Change", "Successful");
 		return true;
 	} 
 	else 
@@ -182,6 +214,5 @@ function changePassword($uname , $newpassword)
 		return false;
 	}
 }
-
 
 ?>
