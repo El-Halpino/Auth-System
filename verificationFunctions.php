@@ -1,7 +1,7 @@
 <?php
 //cleans value of any unwanted characters
 function sanitise($val)
-{
+{ // Santise any chars that might cause problems
 	$arr1 = str_split($val) ;
 	
 	for($x = 0; $x < count($arr1); $x ++)
@@ -28,6 +28,18 @@ function sanitise($val)
 					break;
 				case "&";
 					$arr1[$x] = "&#x00026;";
+					break;
+				case ":";
+					$arr1[$x] = "&#x0003A;";
+					break;
+				case ";";
+					$arr1[$x] = "&#x0003B;";
+					break;
+				case "\"";
+					$arr1[$x] = "&#x00022;";
+					break;
+				case "'";
+					$arr1[$x] = "&#x00060;";
 					break;
 				default:	
 					break;

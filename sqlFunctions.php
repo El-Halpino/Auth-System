@@ -1,7 +1,6 @@
 <?php
 
 // Functions for sql CRUD operations
-
 // Returns link for connecting to SQL
 function createLink()
 {
@@ -121,17 +120,20 @@ function storeNewUser($username , $password)
 	$salt = random_bytes(24);// create random salt
 	$hashedSalt = md5($salt);
 	$hashedPassword = md5($hashedSalt.$password); // created hashed password
-	$sql = "INSERT INTO users (username, password, salt)
-	VALUES ('$username', '$hashedPassword', '$hashedSalt')";
-	if(mysqli_query($link, $sql))
-		{
-			newEvent("Signup", "Successful");
-		}
-	else 
-		{
-			exit("Error inserting user: " . mysqli_error($link) . "\n");
-		}	
-	mysqli_close($link);
+	// Prepared Statement to mitigate SQL injection
+	$stmt = $link->prepare("INSERT INTO users (username, password, salt)
+	VALUES (?, ?, ?)");
+	$stmt->bind_param("sss", $userName, $pass , $salT);
+	
+	$userName = $username;
+	$pass = $hashedPassword;
+	$salT = $hashedSalt;
+	if(!$stmt->execute())
+	{
+		exit("Error inserting user: " . mysqli_error($link) . "\n");
+	}
+	$stmt->close();
+	$link->close();
 }
 
 // Checks if passwords match
