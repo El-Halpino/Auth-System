@@ -1,12 +1,20 @@
 <html>
 <head><title>Signup</title></head>
+<link rel="stylesheet" href="style.css">
 <body>
-<form method="post" action="signup.php">
-		Username:<input type="text" name="username" required /><br>
-		Password:<input type="text" name="password" required /><br>
-		<input type="submit" value="Signup" name="signup"/><br>
-	</form>
+	<div class="formBox">
+		<h2>Signup</h2>
+		<form method="post" action="signup.php">
+			<label for="username">Username:</lable>
+			<input type="text" name="username" placeholder="Username" required /><br>
+			<label for="password">Password:</lable>
+			<input type="text" name="password" placeholder="Password" required /><br>
+			<input type="submit" value="Signup" name="signup"/><br>
+			<a href="login.php"> Login Page </button>
+		</form>
+	</div>
 </body>
+
 </html>
 <?php
 	require "sqlFunctions.php";	

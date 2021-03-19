@@ -129,11 +129,12 @@ function loginVerifyPassword($username,$password)
 					{
 						$_SESSION['admin'] = false;
 					}
-					
+					mysqli_close($link);
 					return true; // passwords match
 				}
 			}
 		}
+		mysqli_close($link);
 		return false; // passwords don't match
 	}
 }
