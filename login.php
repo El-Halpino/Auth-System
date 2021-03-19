@@ -3,6 +3,7 @@
 	require "sessionFunctions.php";
 	require "verificationFunctions.php";
 	checkSession();
+	
 	if(isset($_SESSION['locked'])) // Check if user is locked
 	{
 		$difference = time() - $_SESSION['locked'];

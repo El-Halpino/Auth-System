@@ -18,10 +18,31 @@
 		<title>Profile</title>
 		<link rel="stylesheet" href="style.css">
 	</head>
-	<body>
+<body>
 	<br>
 	<a href="logout.php"> Logout Page </a> <br>
-	<a href="changepassword.php"> Change Password</a>
-	</body>
+	<a href="changepassword.php"> Change Password</a><br>
+</body>
+<?php
+if ($_SESSION['admin'] == true)
+{
+	checkSQL();
+	$link = createLink();
+	$sql = "SELECT eventID , type , description, date FROM eventlog";
+	$result = $link->query($sql);
+	
+	if($result->num_rows > 0) 
+	{
+		echo "<br>Event Log<br>";
+		while($row = $result->fetch_assoc()) 
+		{
+			echo "<br>EventID: " . $row['eventID'] . " - Type: " . $row['type'] . " - Description: " . $row['description'] . " - Date: " . $row['date'] . "<br>";
+		}
+	}
+	else {
+		echo "No Events";
+	}
+}
+?>
 </html>
 
