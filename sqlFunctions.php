@@ -124,7 +124,6 @@ function storeNewUser($username , $password)
 	$stmt = $link->prepare("INSERT INTO users (username, password, salt)
 	VALUES (?, ?, ?)");
 	$stmt->bind_param("sss", $userName, $pass , $salT);
-	
 	$userName = $username;
 	$pass = $hashedPassword;
 	$salT = $hashedSalt;
@@ -197,7 +196,7 @@ function checkIfUserExists($username)
 }
 
 function changePassword($uname , $newpassword)
-{
+{ // No need for prepared staement as password is hashed before it is inserted into DB
 	checkSQL();
 	$link = createLink();
 	$salt = random_bytes(24);// create random salt

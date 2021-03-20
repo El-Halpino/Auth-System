@@ -3,7 +3,6 @@
 function sanitise($val)
 { // Santise any chars that might cause problems
 	$arr1 = str_split($val) ;
-	
 	for($x = 0; $x < count($arr1); $x ++)
 		{
 			switch ($arr1[$x]) 
@@ -22,6 +21,9 @@ function sanitise($val)
 					break;
 				case "/":
 					$arr1[$x] = "&#x0002F;";
+					break;
+				case "\\":
+					$arr1[$x] = "&#x0005C;";
 					break;
 				case "$";
 					$arr1[$x] = "&#x00024;";

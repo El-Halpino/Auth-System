@@ -14,20 +14,21 @@
 		{
 			if(!passwordComplexity($pass))
 			{
-				echo '<script>alert("Password must be at least 8 characters long and must include at least one upper case letter, one number, and one special character.")</script>';
+				$_SESSION['error'] = "Password must be at least 8 characters long and must include at least one upper case letter, one number, and one special character.";
 				newEvent("Signup", "Denied");
-				header('location: signup.php');
 			}
 			else
 			{
 				echo '<br>Password is strong.<br>'; // Now store username and password
 				storeNewUser($uname, $pass);
+				newEvent("Signup", "Successful");
 				header('location: login.php');
 			}
 		}
 		else 
 		{
-			echo '<script>alert("User already exists")</script>';
+			newEvent("Signup", "Denied");
+			$_SESSION['error'] = "User already exists";
 		}
 	}
 ?>
@@ -37,6 +38,9 @@
 <body>
 	<div class="formBox">
 		<h2>Signup</h2>
+		<?php if(isset($_SESSION['error'])) { ?>
+		<p style="color: red;"><?= $_SESSION["error"];?></p>
+		<?php unset($_SESSION["error"]); } ?>
 		<form method="post" action="signup.php">
 			<label for="username">Username:</lable>
 			<input type="text" name="username" placeholder="Username" required /><br>

@@ -14,7 +14,7 @@
 if ($_SERVER["REQUEST_METHOD"] == "GET") // Check if GET has been sent
 	{
 		if($token != $_SESSION['changePassToken'])
-		{
+		{ // if the current token is not equal to the one created at login, destroy session.
 			DestroySession();
 			header('location: login.php');
 		}
@@ -23,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") // Check if GET has been sent
 			$npass = sanitise($_GET["newpassword"]);
 			$npass1 = sanitise($_GET["newpassword1"]);
 			
-			if(!$npass == $npass1) // Ensure passwords are equal
+			if(!$npass == $npass1) // Ensure new passwords are equal
 			{
 				$_SESSION['error'] = "New passwords do not match";
 				newEvent("Password Change", "Denied");
 				header('location: changepassword.php');
 			}
-			else if($npass == $pass)
+			else if($npass == $pass) // New password cannot equal old
 			{
 				$_SESSION['error'] = "New password cannot match old one";
 				newEvent("Password Change", "Denied");
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") // Check if GET has been sent
 				newEvent("Password Change", "Denied");
 				header('location: changepassword.php');
 			}
-			else 
+			else // Passwords are fine, now verify password
 			{
 				$username = $_SESSION['username'];
 				if(loginVerifyPassword($username, $pass))
