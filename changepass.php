@@ -1,4 +1,5 @@
 <?php
+	header("X-Frame-Options: SAMEORIGIN");
 	require "sqlFunctions.php";	
 	require "sessionFunctions.php";
 	require "verificationFunctions.php";

@@ -66,7 +66,7 @@ function newEvent($eventType, $eventDescription)
 		}
 		else 
 		{
-			exit("Error inserting user: " . mysqli_error($link) . "\n");
+			exit("Error inserting event: " . mysqli_error($link) . "\n");
 		}	
 }
 

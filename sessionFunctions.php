@@ -11,14 +11,15 @@ function DestroySession()
 // Checks if session has been started, if it hasn't start one	
 function checkSession()
 {
+	header_remove("X-Powered-By"); 
 	if(session_id() == '' || !isset($_SESSION))
 	{
 		session_set_cookie_params(3600,"/");
-		session_start();
+		session_start(['cookie_secure' => true, 'cookie_httponly' => true]);
 		$_SESSION['currentSession'] = session_id();
 	}
 	else {
-		session_start();
+		session_start(['cookie_secure' => true, 'cookie_httponly' => true]);
 	}
 }
 
@@ -31,6 +32,7 @@ function inactivityChecker()
 	}
 	if(time() - $_SESSION['inactivityTimer'] > 600)
 	{
+		newEvent("Logout", "Timeout");
 		DestroySession();
 	}
 	else {

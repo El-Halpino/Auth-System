@@ -1,4 +1,5 @@
 <?php
+	header("X-Frame-Options: SAMEORIGIN");
 	require "sqlFunctions.php";	
 	require "sessionFunctions.php";
 	require "verificationFunctions.php";
@@ -14,6 +15,7 @@
 	echo "<br>User ID: " , $_SESSION['userID']; 
 ?>
 <html>
+<div class = "formbox">
 	<head>
 		<title>Profile</title>
 		<link rel="stylesheet" href="style.css">
@@ -44,5 +46,6 @@ if ($_SESSION['admin'] == true)
 	}
 }
 ?>
+</div>
 </html>
 

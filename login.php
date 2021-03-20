@@ -1,4 +1,6 @@
 <?php
+	header("X-Frame-Options: SAMEORIGIN");
+	header_remove("X-Powered-By"); 
 	require "sqlFunctions.php";	
 	require "sessionFunctions.php";
 	require "verificationFunctions.php";
@@ -48,7 +50,6 @@
 			$_SESSION['error'] = "The username " . $uname . " and password could not be authenticated";
 		}
 	}
-
 ?>
 <html>
 	<head>
