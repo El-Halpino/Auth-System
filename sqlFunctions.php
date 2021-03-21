@@ -73,22 +73,14 @@ function newEvent($eventType, $eventDescription)
 // Creates DB my_db
 function createDB($link, $dbName)
 {	
-	$serverName = "localhost";
-	$userName = 'root';
-	$db_selected = mysqli_select_db($link, $dbName);
-	
-	if(!$db_selected) 
+	// Create DB
+	$sql = 'CREATE DATABASE my_db';
+	if(mysqli_query($link, $sql)) 
 	{
-		// Create DB
-		$sql = 'CREATE DATABASE my_db';
-		
-		if(mysqli_query($link, $sql)) 
-		{
-			echo "<br>Database my_db created successfully\n"; // Now make users table
-			createTable();
-		} else {
-			echo exit("\nError creating database: " . mysqli_error($link) . "\n");
-		}
+		echo "<br>Database my_db created successfully\n"; // Now make users table
+		createTable();
+	} else {
+		echo exit("\nError creating database: " . mysqli_error($link) . "\n");
 	}
 	mysqli_close($link);
 }
